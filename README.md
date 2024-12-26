@@ -46,7 +46,8 @@ module.exports = {
 ```
 
 ## Usage
-1. Navigate to the project directory: `cd suntrack`
+1. Navigate to the project directory: `cd sunTrack`
+
 2. Run the application: `node server.js > logFileName.log &`
 3. Open your web browser and visit `http://localhost:5000`
 
