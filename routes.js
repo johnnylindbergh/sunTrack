@@ -91,6 +91,13 @@ module.exports = function (app) {
 
   app.post('/bouncieWebhook', (req, res) => { // this is the webhook for bouncie
     console.log("Bouncie Webhook received: ", req.body);
+
+    // this webhook will identify some event of some vehicle. 
+    // if this function determines that the user is clocked_in, it will monitor the location of the user at a given interval
+    // system must be stateless and if you have the urge to store data as a global variable, you are doing it wrong
+
+
+  
    // res.send("Bouncie Webhook received");
    res.end();
   }
