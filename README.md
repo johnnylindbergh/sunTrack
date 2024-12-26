@@ -1,8 +1,8 @@
-# fsc-track
+# suntrack
 A simple time tracking web application.
 
 ## Installation
-1. Clone the repository: `git clone https://github.com/johnylindbergh/fsc-track.git`
+1. Clone the repository: `git clone https://github.com/johnylindbergh/sunTrack.git`
 2. Install Node 
 3. Install the required packages: `npm install`
 4. install mysql and run db.sql with `source db.sql`
@@ -41,7 +41,7 @@ module.exports = {
 
 
 ## Usage
-1. Navigate to the project directory: `cd fsc-track`
+1. Navigate to the project directory: `cd sunTrack`
 2. Run the application: `node server.js > logFileName.log &`
 3. Open your web browser and visit `http://localhost:5000`
 
