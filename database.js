@@ -315,7 +315,17 @@ module.exports = {
     });
   },
 
-  clockOut: (req, cb) => {
+    getJobAssignments: (userId, cb) => {
+      con.query('SELECT job_assignments.*, jobs.name AS job_name, jobs.address AS job_address FROM job_assignments JOIN jobs ON job_assignments.job_id = jobs.id WHERE job_assignments.user_id = ?;', [userId], (err, rows) => {
+        if (!err && rows !== undefined && rows.length > 0){
+          cb(err, rows);
+        } else {
+          cb(err || "Failed to get job assignments");
+        }
+      });
+    },
+    
+    clockOut: (req, cb) => {
 
     var userId = req.user.local.id;
     var notes = req.body.notes

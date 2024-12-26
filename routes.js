@@ -38,9 +38,11 @@ module.exports = function (app) {
 
         var userEmail = req.user.local.email;
         var userId = req.user.local.id;
-        db.getJobs(req, res, function (err, jobs) {
+        db.getJobAssignments(userId, function (err, jobRoute) {
+          // order by shortest distance to make it a "route"
+          console.log(jobRoute);
 
-          render.jobs = jobs;
+          render.jobRoute = jobRoute;
 
 
             db.lookUpUser(userEmail, function (err, user) {
@@ -67,6 +69,32 @@ module.exports = function (app) {
     }
   });
 
+
+  app.post('/checkIn/:jobId', mid.isAuth, (req, res) => {
+    if (req.isAuthenticated() && req.user && req.user.local) {
+      var userId = req.user.local.id;
+      var jobId = req.params.jobId;
+      console.log("Checking in for job: ", jobId);
+   //   db.checkIn(userId, jobId, function (err) {
+        res.send('/dailyLog');
+    //  });
+    } else {
+     // res.redirect('/');
+    }
+  }
+  );
+
+  app.get('/dailyLog/:jobId', mid.isAuth, (req, res) => {
+    if (req.isAuthenticated() && req.user && req.user.local) {
+      var render = defaultRender(req);
+    //  db.getDailyLog(req.user.local.id, function (err, rows) {
+        //render.dailyLog = rows;
+        res.send("dailyLog.html");
+     // });
+    }
+  }
+  );
+
   //app.post("clockIn")
 
   app.post('/location', mid.isAuth, (req, res) => {
@@ -91,6 +119,34 @@ module.exports = function (app) {
 
   app.post('/bouncieWebhook', (req, res) => { // this is the webhook for bouncie
     console.log("Bouncie Webhook received: ", req.body);
+
+
+      // log some incomming info
+
+      const eventType = req.body.eventType;
+      const imei = req.body.imei;
+      const transactionId = req.body.transactionId;
+      
+      let start = moment(req.body.start.timestamp);
+
+      console.log("Event Type: ", eventType);
+      console.log("IMEI: ", imei);
+      console.log("Transaction ID: ", transactionId);
+      console.log("Start: ", start.format("YYYY-MM-DD HH:mm:ss"));
+      
+
+      
+
+     // first validate the webhook
+     if (req.body.key != credentials.bouncieWebhookKey) {
+      res.send("Invalid key");
+      return;
+     } 
+
+
+    // search the most recent location events
+
+    
 
     // this webhook will identify some event of some vehicle. 
     // if this function determines that the user is clocked_in, it will monitor the location of the user at a given interval

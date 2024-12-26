@@ -58,6 +58,20 @@ CREATE TABLE jobs (
   PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+insert into jobs (name, address, lat, lon) values ("Job 1", "123 Main St", 40.7128, -74.0060);
+
+CREATE TABLE job_assignments (
+  id INT NOT NULL AUTO_INCREMENT,
+  job_id INT,
+  user_id INT,
+  PRIMARY KEY (id),
+  FOREIGN KEY (job_id) REFERENCES jobs(id) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO job_assignments (job_id, user_id) VALUES (1, 1);
+
+
 CREATE TABLE timesheet (
   id INT NOT NULL AUTO_INCREMENT,
   user_id INT,
@@ -70,6 +84,8 @@ CREATE TABLE timesheet (
   FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE,
   PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO timesheet (user_id, job_id, clock_in, clock_out, duration, notes) VALUES (1, 1, '2021-01-01 08:00:00', '2021-01-01 16:00:00', 8.1, 'worked 8 hours');
 
 CREATE TABLE vehicle_location (
   id INT NOT NULL AUTO_INCREMENT,
